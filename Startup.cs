@@ -12,6 +12,7 @@ using OpenGameList.Data;
 using OpenGameList.Data.Users;
 
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using System;
 
 namespace OpenGameList
 {
@@ -35,13 +36,13 @@ namespace OpenGameList
             services.AddEntityFrameworkSqlServer();
 
             // Add Identity Services & Stores
-            services.AddIdentity<ApplicationUser, IdentityRole>(config => {
+           /* services.AddIdentity<ApplicationUser, IdentityRole>(config => {
                 config.User.RequireUniqueEmail = true;
                 config.Password.RequireNonAlphanumeric = false;
                // config.Cookies.ApplicationCookie.AutomaticChallenge = false;
             })
             .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddDefaultTokenProviders();
+            .AddDefaultTokenProviders();*/
 
 
             // Add ApplicationDbContext.
@@ -61,7 +62,7 @@ namespace OpenGameList
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, DbSeeder dbSeeder)
         {
             if (env.IsDevelopment())
             {
@@ -92,9 +93,9 @@ namespace OpenGameList
             // Seed the Database (if needed)
             try
             {
-                dbSeeder.SeedAsync().Wait();
+               dbSeeder.SeedAsync().Wait();
             }
-            catch (AggregateException e)
+            catch (System.AggregateException e)
             {
                 throw new Exception(e.ToString());
             }

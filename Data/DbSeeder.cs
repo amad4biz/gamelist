@@ -102,7 +102,7 @@ namespace OpenGameList.Data
             var num = 1000; // create 1000 sample items
             for (int id = 1; id <= num; id++)
             {
-                DbContext.Items.Add(GetSampleItems(id, authorId, num - id, new DateTime(2015, 12, 31).AddDays(-num)));
+                DbContext.Items.Add(GetSampleItem(id, authorId, num - id, new DateTime(2015, 12, 31).AddDays(-num)));
             }
 
 
@@ -190,7 +190,7 @@ namespace OpenGameList.Data
                 Title = "Scrabble3D",
                 Description = "A 3D-based revamp to the classic Scrabbl game.",
                 Text = @"Scrabble3D extends the gameplay of the classic game
-                    Scrabble by adding a new whole third dimension."
+                    Scrabble by adding a new whole third dimension.",
 
                     Notes = "This is a sample record created by the Code - First Configuration class",
 
