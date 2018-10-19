@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using OpenGameList.ViewModels;
@@ -10,6 +11,7 @@ using OpenGameList.ViewModels;
 
 namespace OpenGameList.Controllers
 {
+    [EnableCors("AllowSpecificOrigin")]
     [Route("api/[controller]")]
     public class ItemsController : Controller
     {
@@ -50,9 +52,17 @@ namespace OpenGameList.Controllers
         }
 
 
+        [HttpGet("GetMostViewed")]
+        public IActionResult GetMostViewed()
+        {
+            return GetMostViewed(DefaultNumberOfItems);
+        }
+
         [HttpGet("GetMostViewed/{n}")]
         public  IActionResult GetMostViewed( int n)
         {
+            if (n > MaxNumberOfItems) n = MaxNumberOfItems;
+
             var items = GetSampleItems().OrderByDescending(i =>
 
             i.ViewCount).Take(n);
@@ -61,8 +71,14 @@ namespace OpenGameList.Controllers
         }
 
 
-        [HttpGet("GetRandomView/{n}")]
-        public IActionResult GetRandomView(int n)
+        [HttpGet("GetRandom")]
+        public IActionResult GetRandom()
+        {
+            return GetRandom(DefaultNumberOfItems);
+        }
+
+        [HttpGet("GetRandom/{n}")]
+        public IActionResult GetRandom(int n)
         {
             var items = GetSampleItems().OrderBy(i => Guid.NewGuid()).Take(n);
 
@@ -89,12 +105,13 @@ namespace OpenGameList.Controllers
         public IActionResult GetLatest()
         {
             return GetLatest(DefaultNumberOfItems);
-        }
+        }
+
         //not found controller
         [HttpGet()]
         public IActionResult Get() {
 
-            return NotFound(new { Error="non found" });
+            return NotFound(new { Error="not found" });
         }
 
 
